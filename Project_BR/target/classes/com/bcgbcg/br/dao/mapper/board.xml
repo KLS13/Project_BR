@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bcgbcg.br.dao.BoardDao">
+	
+	<insert id = "reviewWrite">
+	insert into review_t(rIdx, uId_, bISBN, rContent, rGrade, rDate, bTitle) values(review_seq.nextval,#{param1},#{param2},#{param3},#{param4},sysdate, #{param5}) 
+	</insert>
+	<insert id = "addBook">
+	insert into book_t(bISBN, bTitle, bWriter, bPublisher,bPubdate,bImage) 
+    select #{param1},#{param2},#{param3},#{param4},TO_DATE(#{param5},'YYYY-MM-DD'),#{param6} from dual
+	where not exists (select * from book_t where bISBN=#{param1})
+	</insert>
+	
+	<select id = "getReviewList" resultType = "com.bcgbcg.br.dto.ReviewDto">
+	SELECT * FROM (SELECT ROWNUM R_NUM, A.*	FROM (SELECT * FROM REVIEW_T where bISBN = #{param1}) A	)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}		
+	</select>
+	
+	<select id = "getNumberOfReview" resultType = "com.bcgbcg.br.dto.ReviewDto">
+	select * from review_t 
+	</select>
+	
+	<select id = "getAllReviewList" resultType = "com.bcgbcg.br.dto.ReviewDto">
+	SELECT * FROM (SELECT ROWNUM R_NUM, A.*	FROM (SELECT * FROM REVIEW_T ORDER BY RIDX DESC	) A	)
+		WHERE R_NUM BETWEEN #{param1} AND #{param2}				
+	</select>
+	
+	<select id = "getAllBookList" resultType = "com.bcgbcg.br.dto.BookDto">
+	select * from book_t order by bISBN
+	</select>
+	
+	<select id = "getBooksByGrade" resultType= "Long">
+	select distinct bISBN from review_t where rGrade > (select AVG(rGrade) from review_t) order by (select AVG(rGrade) from review_t) DESC
+	</select>
+	
+	<select id = "getBooksByNumOfReview" resultType= "com.bcgbcg.br.dto.BookDto">
+	<![CDATA[     
+	select book_t.*  from book_t, (select B.* from(select ROWNUM r_num, A.*			
+	from(select count(*) count, bISBN from review_T	group by bISBN)A	
+	order by A.count DESC)B	where r_num <= 4)C where book_t.bISBN in C.bISBN	 
+	]]>			
+	</select>
+	
+	<select id="getTotalReview" resultType = "int">
+	 select count(*) from review_t 
+	</select>
+	
+	<select id="getDynamicTotalReview" resultType = "int">
+	 select count(*) from review_t where ${param1} like #{param2}
+	</select>
+	
+	<select id = "dynamicQueryList" resultType = "com.bcgbcg.br.dto.ReviewDto">
+	SELECT * FROM (SELECT ROWNUM R_NUM, A.*	FROM (SELECT * FROM REVIEW_T WHERE ${param1} like #{param2}) A	)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}		
+	</select>
+	
+	<delete id="reviewDelete">
+	delete from review_t where rIdx = #{param1}
+	</delete>
+	
+	<select id = "getIfYourReviewExists" resultType = "int">
+	select count(*) from review_t where uId_ = #{param1} and bISBN = #{param2}
+	</select>
+    <update id="reviewModify">
+    update review_t set rContent = #{param2}, rGrade = #{param3} where rIdx =  #{param1}
+    </update>
+    
+    <select id="searchViewBook" resultType = "com.bcgbcg.br.dto.BookDto">
+    select * from book_t where bISBN = #{param1}
+    </select>
+    
+    <select id="bookChartList" resultType="com.bcgbcg.br.dto.BCDto">
+	select
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='월' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as MON,
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='화' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as TUE,
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='수' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as WEN,
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='목' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as TUR,
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='금' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as FRI,
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='토' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as SAT,
+	(select count(to_char(rDate, 'DY')) from review_t where to_char(rdate, 'DY')='일' and to_char(rDate, 'YYYYMMDD') between to_char(sysdate-6, 'YYYYMMDD') and to_char(sysdate, 'YYYYMMDD')) as SUN
+	from review_t
+	where rownum=1
+
+</select>
+
+<!-- 리뷰작성 포인트 적립  -->
+<update id="addPoint">
+		UPDATE USER_T SET UPOINT = UPOINT+100, UTOTALPOINT = UTOTALPOINT+100 WHERE UID_ = #{param1}
+</update>
+</mapper>

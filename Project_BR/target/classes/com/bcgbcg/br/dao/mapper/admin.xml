@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bcgbcg.br.dao.AdminDao">
+	<select id="selectReviewChartData" resultType="com.bcgbcg.br.dto.HourDto">
+	SELECT
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '00' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR00,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '01' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR01,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '02' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR02,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '03' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR03,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '04' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR04,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '05' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR05,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '06' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR06,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '07' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR07,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '08' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR08,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '09' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR09,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '10' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR10,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '11' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR11,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '12' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR12,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '13' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR13,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '14' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR14,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '15' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR15,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '16' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR16,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '17' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR17,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '18' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR18,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '19' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR19,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '20' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR20,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '21' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR21,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '22' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR22,
+	(SELECT COUNT(TO_CHAR(RDATE, 'HH24')) FROM REVIEW_T WHERE TO_CHAR(RDATE, 'HH24') = '23' AND TO_CHAR(RDATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')) AS HOUR23
+	FROM REVIEW_T
+	WHERE ROWNUM=1
+	</select>
+	
+	<select id="selectList" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM USER_T
+				ORDER BY UIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	<select id="selectMemberCount" resultType="int">
+		SELECT COUNT(*)
+		FROM USER_T
+	</select>
+	<select id="selectView" parameterType="String" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM USER_T
+		WHERE UID_ = #{uId_}
+	</select>
+	<select id="selectReview_tByuId" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+		WHERE UID_ = #{uId_}
+	</select>
+	<update id="modifyMemberByAdmin">
+		UPDATE USER_T
+		SET UPOINT = #{param2}, UTOTALPOINT = #{param3} , UMEMBERSHIP = #{param4}
+		WHERE UID_ = #{param1}
+	</update>
+	<update id="modifyMemberToStop" parameterType="String">
+		UPDATE USER_T
+		SET USTATE = -1
+		WHERE UID_ = #{uId_}
+	</update>
+	<update id="modifyMemberToRelease" parameterType="String">
+		UPDATE USER_T
+		SET USTATE = 1
+		WHERE UID_ = #{uId_}
+	</update>
+	<delete id="removeMember" parameterType="String">
+		DELETE
+		FROM USER_T
+		WHERE UID_ = #{uId_}
+	</delete>
+	<!-- 리뷰 -->
+	<select id="selectReviewList" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM 
+			(
+				SELECT ROWNUM R_NUM, A.*
+				FROM 
+				(
+					SELECT *
+					FROM REVIEW_T
+					ORDER BY RIDX DESC
+				) A
+			)
+		WHERE R_NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	<select id="selectReviewListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+	</select>
+	<select id="selectReviewDetailInReview_t" parameterType="int" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM REVIEW_T
+		WHERE RIDX = #{rIdx}
+	</select>
+	<select id="selectReviewDetailInBook_t" parameterType="long" resultType="com.bcgbcg.br.dto.BookDto">
+		SELECT *
+		FROM BOOK_T
+		WHERE BISBN = #{bISBN}
+	</select>
+	
+	<!-- 리뷰 remove부분 -->
+	<delete id="removeReview" parameterType="int">
+		DELETE
+		FROM REVIEW_T
+		WHERE RIDX = #{rIdx}
+	</delete>
+	
+	<!-- 교환내역 -->
+	<select id="selectPurchaseList" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				ORDER BY PIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param1} AND #{param2}
+	</select>
+	<select id="selectPurchaseListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+	</select>
+	
+	
+	<!-- 교환내역 상세 -->
+	<select id="selectPurchaseDetail" parameterType="int" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM PURCHASE_T
+		WHERE PIDX = #{pIdx}
+	</select>
+	<select id="selectGoodsDetail" parameterType="int" resultType="com.bcgbcg.br.dto.GoodsDto">
+		SELECT *
+		FROM GOODS_T
+		WHERE GIDX = #{gIdx}
+	</select>
+	<update id="modifyInvoiceNo">
+		UPDATE PURCHASE_T
+		SET PINVOICENO = #{param2}
+		WHERE PIDX = #{param1}
+	</update>
+	
+	<!-- 멤버 검색 부분 -->
+	<select id="searchMember" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM(SELECT *
+				FROM USER_T
+				WHERE #{param1} = #{param2}
+				ORDER BY UIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	<select id="searchMemberCount" resultType="int">
+		SELECT COUNT(*)
+		FROM USER_T
+		WHERE #{param1} = #{param2}
+	</select>
+	
+	<select id="searchMemberForMap" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM(SELECT ROWNUM R_NUM, A.*
+			FROM(SELECT *
+				FROM USER_T
+						WHERE ${param1} LIKE '%' || #{param2} || '%'
+				ORDER BY UIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	<select id="searchMemberForMapCount" resultType="int">
+		SELECT COUNT(*)
+		FROM USER_T
+		WHERE ${param1} LIKE '%' || #{param2} || '%'
+	</select>
+	
+	<!-- 리뷰 검색 -->
+	<select id="searchReviewByKey" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM REVIEW_T
+				WHERE ${param1} LIKE '%' || #{param2} || '%'
+				ORDER BY RIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	<select id="searchReviewByDate" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM REVIEW_T
+				WHERE #{param1} = TO_CHAR(RDATE, 'YYYYMMDD')
+				ORDER BY RIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	<select id="searchReviewByKeyCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+		WHERE ${param1} LIKE '%' || #{param2} || '%'
+	</select>
+	<select id="searchReviewByDateCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+		WHERE #{param1} = TO_CHAR(RDATE, 'YYYYMMDD')
+	</select>
+	<select id="searchPurchaseBypIdx" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM PURCHASE_T
+		WHERE PIDX = #{param1}
+	</select>
+	<select id="searchPurchaseByuId" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				WHERE UID_ LIKE '%' || #{param1} || '%'
+				ORDER BY PIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	<select id="searchPurchaseBygName" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				WHERE GIDX IN (SELECT GIDX FROM GOODS_T WHERE GNAME LIKE '%' || #{param1} || '%')
+				ORDER BY PIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	<select id="searchPurchaseByDate" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				WHERE #{param1} = TO_CHAR(PDATE, 'YYYYMMDD')
+				ORDER BY PIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	<select id="searchPurchaseBypIdxCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE PIDX = #{param1}
+	</select>
+	<select id="searchPurchaseByuIdCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE UID_ LIKE '%' || #{param1} || '%'
+	</select>
+	<select id="searchPurchaseBygNameCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE GIDX IN (SELECT GIDX FROM GOODS_T WHERE GNAME LIKE '%' || #{param1} || '%')
+	</select>
+	<select id="searchPurchaseByDateCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE #{param1} = TO_CHAR(PDATE, 'YYYYMMDD')
+	</select>
+</mapper>

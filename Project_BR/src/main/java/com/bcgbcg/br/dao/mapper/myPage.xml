@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bcgbcg.br.dao.MyPageDao">
+	<!-- User -->
+	<insert id="create">
+		INSERT INTO USER_T (UIDX, UNAME, UID_, UPASSWORD, UPHONE, UBIRTHDAY, UEMAIL, UADDRESS, UGENRE) 
+		VALUES (USER_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, TO_DATE(#{param5}, 'YY/MM/DD'), #{param6}, #{param7}, #{param8})
+	</insert>
+	<!-- 
+		to_date(#{uBirthday}, 'YY/MM/DD')
+	 -->
+	 
+	 <select id="login" resultType="com.bcgbcg.br.dto.UserDto">
+	 	SELECT * FROM USER_T WHERE UID_ = #{param1} and UPASSWORD = #{param2}
+	 </select>
+	
+	<update id="myDelete">
+		UPDATE 	USER_T 
+			SET
+			USTATE = 0
+			WHERE 
+			UIDX = #{param2}
+	</update>
+	<!-- 내 정보  -->
+		<select id="myInformation" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM USER_T
+		WHERE UID_ = #{param1}
+	</select>
+
+
+	<update id="modify">
+		UPDATE USER_T 
+		SET UPASSWORD = #{param1}, UPHONE = #{param2}, UEMAIL = #{param3}, UADDRESS = #{param4}, UGENRE = #{param5}, UADDRESSDETAIL=#{param6}
+		WHERE UID_=#{param7}
+	</update>
+	
+	<!-- 교환물품 -->
+		<select id="mySelectPurchaseList" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T WHERE UID_ = #{param1}
+				ORDER BY PIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	
+	<select id="mySelectPurchaseListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+	</select>
+	 
+	<select id="mySelectPurchaseDetail" parameterType="int" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM PURCHASE_T
+		WHERE PIDX = #{pIdx}
+	</select>
+
+	<select id="mySelectGoodsDetail" parameterType="int" resultType="com.bcgbcg.br.dto.GoodsDto">
+		SELECT *
+		FROM GOODS_T
+		WHERE GIDX = #{gIdx}
+	</select>
+	
+
+	
+	<select id="mySelectView" parameterType="String" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM USER_T
+		WHERE UID_ = #{uId_}
+	</select>
+	<!-- 리뷰 전체 -->
+	<select id="mySelectReviewList" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM 
+			(
+				SELECT ROWNUM R_NUM, A.*
+				FROM 
+				(
+					SELECT *
+					FROM REVIEW_T WHERE UID_ = #{param1}
+					ORDER BY RIDX DESC
+				) A
+			)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	
+	<select id="mySelectReviewListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+	</select>
+	<!-- 리뷰 상세 -->
+	<select id="mySelectReviewDetailInReview_t" parameterType="int" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM REVIEW_T
+		WHERE RIDX = #{rIdx}
+	</select>
+	
+	<select id="mySelectReviewDetailInBook_t" parameterType="long" resultType="com.bcgbcg.br.dto.BookDto">
+		SELECT *
+		FROM BOOK_T
+		WHERE BISBN = #{bISBN}
+	</select>
+	
+	<!-- 리뷰 삭제 -->
+	<delete id="myRemoveReview" parameterType="int">
+		DELETE
+		FROM REVIEW_T
+		WHERE RIDX = #{rIdx}
+	</delete>
+	
+	<update id="myModifyMemberByUser">
+		UPDATE USER_T
+		SET UPOINT = #{param2}, UTOTALPOINT = #{param3} , UMEMBERSHIP = #{param4}
+		WHERE UID_ = #{param1}
+	</update>
+	
+	
+		<!-- 리뷰 검색 -->
+	<select id="mySearchReviewByKey" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM REVIEW_T
+				WHERE ${param1} LIKE '%' || #{param2} || '%'
+				AND UID_ = #{param3}
+				ORDER BY RIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param4} AND #{param5}
+	</select>
+	<select id="mySearchReviewByDate" resultType="com.bcgbcg.br.dto.ReviewDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM REVIEW_T
+				WHERE TO_CHAR(RDATE, 'YYYYMMDD') = #{param1}
+				AND UID_ = #{param2}
+				ORDER BY RIDX DESC) A)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	<select id="mySearchReviewByKeyCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+		WHERE ${param1} LIKE '%' || #{param2} || '%' AND UID_= #{param3}
+	</select>
+	<select id="mySearchReviewByDateCount" resultType="int">
+		SELECT COUNT(*)
+		FROM REVIEW_T
+		WHERE #{param1} = TO_CHAR(RDATE, 'YYYYMMDD') AND UID_ = #{param2}
+	</select>
+	<select id="mySearchPurchaseBypIdx" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM PURCHASE_T
+		WHERE PIDX = #{param1} AND UID_ = #{param2}
+	</select>
+	<select id="mySearchPurchaseByuId" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				WHERE UID_ LIKE '%' || #{param1} || '%'
+				ORDER BY PIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param2} AND #{param3}
+	</select>
+	<select id="mySearchPurchaseBygName" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				WHERE GIDX IN (SELECT GIDX FROM GOODS_T WHERE GNAME LIKE '%' || #{param1} || '%') AND UID_ = #{param2}
+				ORDER BY PIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	<select id="mySearchMurchaseByDate" resultType="com.bcgbcg.br.dto.PurchaseDto">
+		SELECT *
+		FROM (SELECT ROWNUM R_NUM, A.*
+			FROM (SELECT *
+				FROM PURCHASE_T
+				WHERE #{param1} = TO_CHAR(PDATE, 'YYYYMMDD') AND UID_ = #{param2}
+				ORDER BY PIDX DESC)A)
+		WHERE R_NUM BETWEEN #{param3} AND #{param4}
+	</select>
+	<select id="mySearchPurchaseBypIdxCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE PIDX = #{param1} AND UID_ = #{param2}
+	</select>
+	<select id="mySearchPurchaseByuIdCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE UID_ LIKE '%' || #{param1} || '%'
+	</select>
+	<select id="mySearchPurchaseBygNameCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE GIDX IN (SELECT GIDX FROM GOODS_T WHERE GNAME LIKE '%' || #{param1} || '%') AND UID_ = #{param2}
+	</select>
+	<select id="mySearchPurchaseByDateCount" resultType="int">
+		SELECT COUNT(*)
+		FROM PURCHASE_T
+		WHERE #{param1} = TO_CHAR(PDATE, 'YYYYMMDD') AND UID_ = #{param2}
+	</select>
+	
+	
+
+</mapper>

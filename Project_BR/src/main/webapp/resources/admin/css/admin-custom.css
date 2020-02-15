@@ -1,0 +1,28 @@
+@charset "UTF-8";
+.information-detail-table tr{
+	border-top:1px solid lightgray;
+	border-bottom:1px solid lightgray;
+	margin:0;
+}
+.information-detail-table tr td input[type=text]{
+	border-radius:5px;
+	border:1px solid lightgray;
+	height: 20px;
+}
+.information-detail-table tr td{
+	padding:10px 5px 10px 5px;
+}
+.attr-title{
+	font-size: 0.8em;
+	text-align:center;
+	width:30%;
+}
+.information-detail-table{
+	margin:auto;
+	width:80%;
+	font-size:1.2em;
+}
+div.btn-box{
+	width:200px;
+	margin:auto;
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bcgbcg.br.dao.mapper.goods">
+	<!-- 관리자 굿즈 상품등록 -->
+	<insert id="goods">
+		INSERT INTO GOODS_T VALUES(goods_seq.nextval, #{gName}, #{gImage}, #{gQuantity}, #{gPrice}, sysdate, #{gDetail}, 1)
+	</insert>
+	<!-- 굿즈 리스트 -->
+	<select id="goodslist" resultType="com.bcgbcg.br.dto.GoodsDto">
+		SELECT * FROM GOODS_T WHERE GQUANTITY >= 0 ORDER BY GSTATE DESC, GIDX DESC
+	</select>
+	<!-- 굿즈 수정페이지 들어갈때 -->
+	<select id="goodsDes" resultType="com.bcgbcg.br.dto.GoodsDto">
+		SELECT * FROM GOODS_T WHERE GIDX = #{gIdx}
+	</select>
+	<!-- 굿즈 수정 재등록 -->
+	<update id="goodsModify">
+		UPDATE GOODS_T SET GNAME=#{gName}, GQUANTITY = #{gQuantity}, GPRICE = #{gPrice}, GDATE = sysdate, GDETAIL = #{gDetail}, GSTATE = 1
+		WHERE GIDX = #{gIdx}
+	</update>
+	<!-- 굿즈 품절처리 -->
+	<update id="goodsSoldOut">
+		UPDATE GOODS_T SET GSTATE=0 WHERE GQUANTITY = 0
+	</update>
+	<!-- 굿즈 삭제 -->
+	<update id="goodsDelete">
+		UPDATE GOODS_T SET GSTATE=0, GQUANTITY = 0 WHERE GIDX=#{gIdx}
+	</update>
+	<!-- 유저 굿즈 구매페이지 이동 -->
+	<select id="goodsBuyMove" resultType="com.bcgbcg.br.dto.GoodsDto">
+		SELECT * FROM GOODS_T WHERE GIDX=#{gIdx}
+	</select>
+	
+	<!-- 결제확정버튼(주문확인 페이지로 갈 때) 상품 업데이트와 회원 업데이트 -->
+	<update id="payDecision">
+		UPDATE GOODS_T SET GQUANTITY = GQUANTITY-1 WHERE GIDX = #{gIdx}
+	</update>
+	<!-- 결제완료 후 고객의 포인트차감 -->
+	<update id="payDecision_user">
+		UPDATE USER_T SET UPOINT = UPOINT-#{gPrice}  WHERE UIDX = #{uIdx}
+	</update>
+	<!-- 로그인 세션 저장 -->
+	<select id="loginUpdate" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT * FROM USER_T WHERE UIDX=#{uIdx}
+	</select>
+	<!-- 구매 후 교환목록 리스트에 포함됨. -->
+	<insert id="purchaseInsert">
+		INSERT INTO PURCHASE_T VALUES(purchase_seq.nextval ,#{uId_}, #{gIdx}, 1, sysdate,
+		#{pReceiver},#{pPhone},#{pAddress},#{pAddressDetail},#{pMessage}, '-')
+	</insert>
+	
+</mapper>

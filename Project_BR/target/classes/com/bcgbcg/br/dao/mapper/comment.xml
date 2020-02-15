@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bcgbcg.br.dao.CommentDao">
+
+<!-- 고객지원 관리자 답변달기 -->
+<insert id="commentWrite">
+	INSERT INTO COMMENT_T VALUES(#{param1}, #{param2}, sysdate)
+</insert>
+
+<!-- 관리자 답변 보기 -->
+<select id="commentView" resultType="com.bcgbcg.br.dto.CommentDto">
+	SELECT * FROM COMMENT_T WHERE QIDX = #{param1}
+</select>
+
+<update id="commentModify">
+	UPDATE COMMENT_T SET CCONTENT=#{param1} WHERE QIDX=#{param2}
+</update>
+
+</mapper>

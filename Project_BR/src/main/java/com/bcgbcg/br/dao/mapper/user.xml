@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bcgbcg.br.dao.UserDao">
+	
+	<insert id="create">
+		INSERT INTO USER_T (UIDX, UNAME, UID_, UPASSWORD, UPHONE, UBIRTHDAY, UEMAIL, UADDRESS, UGENRE) 
+		VALUES (USER_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, TO_DATE(#{param5}, 'YY/MM/DD'), #{param6}, #{param7}, #{param8})
+	</insert>
+	<!-- 
+		to_date(#{uBirthday}, 'YY/MM/DD')
+	 -->
+	 
+	 <select id="login" resultType="com.bcgbcg.br.dto.UserDto">
+	 	SELECT * FROM USER_T WHERE UID_ = #{param1} and UPASSWORD = #{param2}
+	 </select>
+	 
+	 <select id="loginCount" resultType = "int">
+	  select count(*) from USER_T WHERE UID_ = #{param1} and UPASSWORD = #{param2}
+	 </select>
+	
+	<update id="delete"> <!-- delete에서 update문으로 변경 -->
+		UPDATE USER_T SET USTATE = 0  WHERE UID_ = #{param1} and UPASSWORD = #{param2}
+	</update>
+	
+	<update id="modify">
+		UPDATE USER_T SET UPASSWORD = #{param1}, UPHONE = #{param2}, UEMAIL=#{param3}, UADDRESS= #{param4}, UGENRE = #{param5} WHERE UID_ = #{param6}
+	</update>
+   <update id="changePw">
+		UPDATE USER_T SET UPASSWORD = #{param1} WHERE UID_ = #{param2}
+	</update>
+
+	<select id="find" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT * FROM USER_T WHERE UNAME = #{param1} AND UEMAIL = #{param2} 
+	</select>
+
+	<!-- finds 삭제 -->
+	
+	<select id="idCheck" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT UID_ FROM USER_T WHERE UID_ = #{param1}
+	</select>
+	
+	<!-- 비밀번호 인증 전 아이디와 이름 인증 -->
+	<select id="searchUserInfo" resultType="com.bcgbcg.br.dto.UserDto">
+		SELECT *
+		FROM USER_T
+		WHERE UID_=#{param1} AND UNAME=#{param2}
+	</select>
+	
+</mapper>
